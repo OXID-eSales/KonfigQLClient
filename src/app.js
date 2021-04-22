@@ -12,38 +12,48 @@ const HOMEPAGE_QUERY = `query {settings {
 
 function Setting(props) {
     const {id, displayName} = props.setting;
-    const [editState, setEditState] = useState(true);
+    const [editState, setEditState] = useState(false);
 
-    const handleState = (e) => {
-        setEditState(false);
-    };
     return <li key={id}>{displayName}
         <Switch
-        checked={editState}
-        onChange={handleState}
-        inputProps={{ 'aria-label': 'secondary checkbox' }} />
-        <Button color="primary"> <Edit/> edit1</Button>
-        <Button color="primary"> <Save/> save</Button>
+            checked={editState}
+            onChange={() => setEditState(!editState)}
+            inputProps={{ 'aria-label': 'secondary checkbox' }} />
+        {
+        !editState ?
+        <Button color="primary" onClick={() => setEditState(true)}> <Edit/> edit</Button>
+                :
+        <Button color="primary" onClick={() => setEditState(false)}> <Save/> save</Button>
+}
         </li>;
 }
 
 function SettingsList(props) {
-    return <ul> {props.settings.map(setting => <Setting setting={setting} />)}</ul>;
+    return <ul> {props.settings.map(setting => <Setting key={setting.id} setting={setting} />)}</ul>;
 }
 
 function Search() {
     return <TextField id="standard-basic" label="Search" />;
 }
+let data1 = [{ id: 1, displayName: "bla"},
+            { id: 2, displayName: "bla2"}
+           ];
 
 export function App() {
-    const { loading, error, data } = useQuery(HOMEPAGE_QUERY, {});
+    const [filterStr, setFilterStr] = useState('');
 
-    if (loading) return 'Loading...'
-    if (error) return 'Something Bad Happened'
+    const { loading, error, data } = useQuery(HOMEPAGE_QUERY);
+    const settings = data1;
+    const filteredData = settings.filter(v => v.displayName.startsWith(filterStr));
+
+    if (loading) return 'Loading...';
+    if (error) return 'Something Bad Happened';
 
     return <div>
-        <Search />
-        <SettingsList settings={data.settings}/>
+        <TextField id="standard-basic" label="Search"
+            onChange={(e) => setFilterStr(e.target.value)}
+        />
+        <SettingsList settings={data.settings.slice(0,10)}/>
         </div>;
 };
 
