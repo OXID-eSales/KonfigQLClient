@@ -41,7 +41,7 @@ function SettingsList() {
 }
 
 function Search() {
-        <TextField id="standard-basic" label="Search" />
+    return <TextField id="standard-basic" label="Search" />;
 }
 
 export function App() {
