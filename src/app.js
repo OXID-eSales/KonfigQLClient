@@ -27,17 +27,8 @@ function Setting(props) {
         </li>;
 }
 
-function SettingsList() {
-    const { loading, error, data } = useQuery(HOMEPAGE_QUERY, {});
-
-    if (loading) return 'Loading...'
-    if (error) return 'Something Bad Happened'
-
-    return (
-            <ul>
-            {data.products.map(setting => <Setting setting={setting} />)}
-            </ul>
-    );
+function SettingsList(props) {
+    return <ul> {props.products.map(setting => <Setting setting={setting} />)}</ul>;
 }
 
 function Search() {
@@ -45,9 +36,14 @@ function Search() {
 }
 
 export function App() {
+    const { loading, error, data } = useQuery(HOMEPAGE_QUERY, {});
+
+    if (loading) return 'Loading...'
+    if (error) return 'Something Bad Happened'
+
     return <div>
         <Search />
-        <SettingsList/>
+        <SettingsList products={data.products}/>
         </div>;
 };
 
