@@ -6,18 +6,18 @@ import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import { Edit, Save } from '@material-ui/icons';
 
-const HOMEPAGE_QUERY = `query {products {
+const HOMEPAGE_QUERY = `query {settings {
     id
-    title}}`;
+    displayName}}`;
 
 function Setting(props) {
-    const {id, title} = props.setting;
+    const {id, displayName} = props.setting;
     const [editState, setEditState] = useState(true);
 
     const handleState = (e) => {
         setEditState(false);
     };
-    return <li key={id}>{title}
+    return <li key={id}>{displayName}
         <Switch
         checked={editState}
         onChange={handleState}
@@ -28,7 +28,7 @@ function Setting(props) {
 }
 
 function SettingsList(props) {
-    return <ul> {props.products.map(setting => <Setting setting={setting} />)}</ul>;
+    return <ul> {props.settings.map(setting => <Setting setting={setting} />)}</ul>;
 }
 
 function Search() {
@@ -43,7 +43,7 @@ export function App() {
 
     return <div>
         <Search />
-        <SettingsList products={data.products}/>
+        <SettingsList settings={data.settings}/>
         </div>;
 };
 
