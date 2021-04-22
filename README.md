@@ -6,4 +6,4 @@
 
 
 ## run dev server 
-`npx webpack serve`
+`npx webpack serve --mode=development`
