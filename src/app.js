@@ -11,14 +11,18 @@ const HOMEPAGE_QUERY = `query {products {
     title}}`;
 
 function Setting(props) {
-    // const [editState, setEditState] = useState(0);
     const {id, title} = props.setting;
+    const [editState, setEditState] = useState(true);
+
+    const handleState = (e) => {
+        setEditState(false);
+    };
     return <li key={id}>{title}
         <Switch
-        checked='true'
-        name="checkedA"
+        checked={editState}
+        onChange={handleState}
         inputProps={{ 'aria-label': 'secondary checkbox' }} />
-        <Button color="primary"> <Edit/> edit</Button>
+        <Button color="primary"> <Edit/> edit1</Button>
         <Button color="primary"> <Save/> save</Button>
         </li>;
 }
@@ -36,9 +40,13 @@ function SettingsList() {
     );
 }
 
+function Search() {
+        <TextField id="standard-basic" label="Search" />
+}
+
 export function App() {
     return <div>
-        <TextField id="standard-basic" label="Search" />
+        <Search />
         <SettingsList/>
         </div>;
 };
