@@ -31,6 +31,7 @@ function Setting(props) {
     const saveSetting = () => {
         updateSetting({variables: {settingId: id, value: editVal}});
         setEditState(false);
+        setOpen(true);
     };
     const toggleSwitch = () => {
         const trueVal = (editVal == "true" || editVal == 1);
@@ -38,6 +39,8 @@ function Setting(props) {
 
         updateSetting({variables: {settingId: id, value: newEditVal}});
         setEditVal(newEditVal);
+
+        setOpen(true);
     };
 
     const handleClose = (event, reason) => {
@@ -81,7 +84,7 @@ function Setting(props) {
     open={open}
     autoHideDuration={6000}
     onClose={handleClose}
-    message="Note archived"
+    message="Setting saved"
         />
         </React.Fragment>;
 }
