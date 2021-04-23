@@ -30,16 +30,16 @@ function Setting(props) {
      checked={value == "true"}
      // onChange={() => setEditState(!editState)}
      inputProps={{ 'aria-label': 'secondary checkbox' }} />}
-        </Grid>
-        <Grid item lg={5}>
     {!isBoolean &&
-      editState &&
+     editState &&
      type == "string" &&
      <TextField
      value={value}
      // checked={editState}
      // onChange={() => setEditState(!editState)}
      inputProps={{ 'aria-label': 'secondary checkbox' }} />}
+        </Grid>
+        <Grid item lg={5}>
     {!isBoolean && (!editState ?
         <Button color="primary" onClick={() => setEditState(true)}> <Edit/> edit</Button>
                 :
