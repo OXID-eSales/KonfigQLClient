@@ -1,11 +1,11 @@
 import ReactDOM from "react-dom";
 import React, { useState } from "react";
 import { useQuery, useMutation } from 'graphql-hooks';
-import { Button,Container,Grid,Paper } from '@material-ui/core';
+import { Button,Container,Grid,Paper,Snackbar,IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
-import { Edit, Save } from '@material-ui/icons';
+import { Edit, Save, CloseIcon } from '@material-ui/icons';
 
 const HOMEPAGE_QUERY = `query {settings {
     id
@@ -24,6 +24,7 @@ function Setting(props) {
     const [editState, setEditState] = useState(false);
     const [editVal, setEditVal] = useState(value);
     const notBooleanAndeditState = isBoolean && !editState;
+    const [open,setOpen] = useState(false);
 
     const [updateSetting] = useMutation(UPDATE_SETTING_MUTATION);
 
@@ -37,6 +38,14 @@ function Setting(props) {
 
         updateSetting({variables: {settingId: id, value: newEditVal}});
         setEditVal(newEditVal);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
     };
 
 
@@ -63,7 +72,18 @@ function Setting(props) {
         <Button color="primary" onClick={() => setEditState(true)}> <Edit/> edit</Button>
                 :
         <Button color="primary" onClick={saveSetting}> <Save/> save</Button>)}
-    </Grid></React.Fragment>;
+    </Grid>
+        <Snackbar
+    anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left',
+    }}
+    open={open}
+    autoHideDuration={6000}
+    onClose={handleClose}
+    message="Note archived"
+        />
+        </React.Fragment>;
 }
 
 function SettingsList(props) {
