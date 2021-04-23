@@ -36,24 +36,25 @@ function Search() {
     return <TextField id="standard-basic" label="Search" />;
 }
 let data1 = [{ id: 1, displayName: "bla"},
-            { id: 2, displayName: "bla2"}
-           ];
+            { id: 2, displayName: "bla2"}];
 
 export function App() {
     const [filterStr, setFilterStr] = useState('');
 
     const { loading, error, data } = useQuery(HOMEPAGE_QUERY);
-    const settings = data1;
-    const filteredData = settings.filter(v => v.displayName.startsWith(filterStr));
+
 
     if (loading) return 'Loading...';
     if (error) return 'Something Bad Happened';
+
+    const settings = data.settings;
+    const filteredData = settings.filter(v => v.displayName.startsWith(filterStr));
 
     return <div>
         <TextField id="standard-basic" label="Search"
             onChange={(e) => setFilterStr(e.target.value)}
         />
-        <SettingsList settings={data.settings.slice(0,10)}/>
+        <SettingsList settings={filteredData}/>
         </div>;
 };
 
