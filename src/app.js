@@ -38,8 +38,8 @@ function Setting(props) {
      // checked={editState}
      // onChange={() => setEditState(!editState)}
      inputProps={{ 'aria-label': 'secondary checkbox' }} />}
-        </Grid>
-        <Grid item lg={5}>
+    </Grid>
+    <Grid item lg={5}>
     {!isBoolean && (!editState ?
         <Button color="primary" onClick={() => setEditState(true)}> <Edit/> edit</Button>
                 :
@@ -81,7 +81,7 @@ export function App() {
     if (error) return 'Something Bad Happened';
 
     const settings = data.settings;
-    const filteredData = settings.filter(v => v.displayName.startsWith(filterStr));
+    const filteredData = settings.filter(v => v.displayName.startsWith(filterStr) && v.type != "array" && v.type != "select" && v.type != "associative array");
 
 
     return <div className={classes.root}>
