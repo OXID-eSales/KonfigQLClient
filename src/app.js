@@ -15,16 +15,15 @@ function Setting(props) {
     const [editState, setEditState] = useState(false);
 
     return <li key={id}>{displayName}
+    {editState && 
         <Switch
-            checked={editState}
-            onChange={() => setEditState(!editState)}
-            inputProps={{ 'aria-label': 'secondary checkbox' }} />
-        {
-        !editState ?
+            // checked={editState}
+            // onChange={() => setEditState(!editState)}
+            inputProps={{ 'aria-label': 'secondary checkbox' }} />}
+        {!editState ?
         <Button color="primary" onClick={() => setEditState(true)}> <Edit/> edit</Button>
                 :
-        <Button color="primary" onClick={() => setEditState(false)}> <Save/> save</Button>
-}
+        <Button color="primary" onClick={() => setEditState(false)}> <Save/> save</Button>}
         </li>;
 }
 
