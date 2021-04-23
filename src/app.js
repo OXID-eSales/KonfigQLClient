@@ -14,20 +14,29 @@ const HOMEPAGE_QUERY = `query {settings {
     displayName}}`;
 
 
+const UPDATE_SETTING_MUTATION = `mutation UpdateSetting ($settingId: String!, $value: String!) {
+        updateSetting(settingId: $settingId, value: $value)
+    }`;
+
 function Setting(props) {
     const {id, displayName,type,value} = props.setting;
     const isBoolean = (type == "boolean");
     const [editState, setEditState] = useState(false);
+    const [editVal, setEditVal] = useState(value);
     const notBooleanAndeditState = isBoolean && !editState;
 
-    const UPDATE_SETTING_MUTATION = `mutation {
-        updateSetting(settingId: "00588cf5131ecc71672846c1a9497605", value: "$value")
-    }`;
     const [updateSetting] = useMutation(UPDATE_SETTING_MUTATION);
 
     const saveSetting = () => {
         updateSetting({variables: {settingId: id, value: 'false'}});
         setEditState(false);
+    };
+    const toggleSwitch = () => {
+        const trueVal = (editVal == "true" || editVal == 1);
+        const newEditVal = (! trueVal).toString();
+
+        updateSetting({variables: {settingId: id, value: newEditVal}});
+        setEditVal(newEditVal);
     };
 
     return <React.Fragment><Grid item lg={4} key={id}>
@@ -37,8 +46,8 @@ function Setting(props) {
     {!editState && !isBoolean && value}
     {isBoolean &&
      <Switch
-     checked={value == "true" || value == "1"}
-     onChange={() => updateSetting({variables: {settingId: id, value: 'false'}})}
+     checked={editVal == "true" || editVal == "1"}
+     onChange={() => toggleSwitch()}
      inputProps={{ 'aria-label': 'secondary checkbox' }} />}
     {!isBoolean &&
      editState &&
