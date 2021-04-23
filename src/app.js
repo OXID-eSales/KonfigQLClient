@@ -82,7 +82,7 @@ function Setting(props) {
         horizontal: 'left',
     }}
     open={open}
-    autoHideDuration={6000}
+    autoHideDuration={1000}
     onClose={handleClose}
     message="Setting saved"
         />
