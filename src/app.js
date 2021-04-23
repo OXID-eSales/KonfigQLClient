@@ -8,18 +8,33 @@ import { Edit, Save } from '@material-ui/icons';
 
 const HOMEPAGE_QUERY = `query {settings {
     id
+    type
+    value
     displayName}}`;
 
+
 function Setting(props) {
-    const {id, displayName} = props.setting;
+    const {id, displayName,type,value} = props.setting;
+    const isBoolean = (type == "boolean");
     const [editState, setEditState] = useState(false);
+    const notBooleanAndeditState = isBoolean && !editState;
 
     return <li key={id}>{displayName}
-    {editState && 
+    {type}
+    {!editState && !isBoolean && value}
+    {isBoolean &&
         <Switch
-            // checked={editState}
+            checked={value == "true"}
             // onChange={() => setEditState(!editState)}
             inputProps={{ 'aria-label': 'secondary checkbox' }} />}
+    {!isBoolean &&
+      editState &&
+     type == "string" &&
+     <TextField
+     value={value}
+     // checked={editState}
+     // onChange={() => setEditState(!editState)}
+     inputProps={{ 'aria-label': 'secondary checkbox' }} />}
         {!editState ?
         <Button color="primary" onClick={() => setEditState(true)}> <Edit/> edit</Button>
                 :
