@@ -28,7 +28,7 @@ function Setting(props) {
     const [updateSetting] = useMutation(UPDATE_SETTING_MUTATION);
 
     const saveSetting = () => {
-        updateSetting({variables: {settingId: id, value: 'false'}});
+        updateSetting({variables: {settingId: id, value: editVal}});
         setEditState(false);
     };
     const toggleSwitch = () => {
@@ -39,11 +39,12 @@ function Setting(props) {
         setEditVal(newEditVal);
     };
 
+
     return <React.Fragment><Grid item lg={4} key={id}>
         {displayName}
     </Grid>
         <Grid item lg={3}>
-    {!editState && !isBoolean && value}
+    {!editState && !isBoolean && editVal}
     {isBoolean &&
      <Switch
      checked={editVal == "true" || editVal == "1"}
@@ -53,9 +54,8 @@ function Setting(props) {
      editState &&
      type == "string" &&
      <TextField
-     value={value}
-     // checked={editState}
-     // onChange={() => setEditState(!editState)}
+     value={editVal}
+     onChange={(e) => setEditVal(e.target.value)}
      inputProps={{ 'aria-label': 'secondary checkbox' }} />}
     </Grid>
     <Grid item lg={5}>
