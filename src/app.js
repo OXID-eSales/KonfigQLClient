@@ -1,7 +1,8 @@
 import ReactDOM from "react-dom";
 import React, { useState } from "react";
 import { useQuery } from 'graphql-hooks';
-import { Button } from '@material-ui/core';
+import { Button,Container,Grid,Paper } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import { Edit, Save } from '@material-ui/icons';
@@ -35,10 +36,10 @@ function Setting(props) {
      // checked={editState}
      // onChange={() => setEditState(!editState)}
      inputProps={{ 'aria-label': 'secondary checkbox' }} />}
-        {!editState ?
+    {!isBoolean && (!editState ?
         <Button color="primary" onClick={() => setEditState(true)}> <Edit/> edit</Button>
                 :
-        <Button color="primary" onClick={() => setEditState(false)}> <Save/> save</Button>}
+        <Button color="primary" onClick={() => setEditState(false)}> <Save/> save</Button>)}
         </li>;
 }
 
@@ -65,10 +66,12 @@ export function App() {
     const filteredData = settings.filter(v => v.displayName.startsWith(filterStr));
 
     return <div>
+        <Container maxWidth="lg">
         <TextField id="standard-basic" label="Search"
             onChange={(e) => setFilterStr(e.target.value)}
         />
         <SettingsList settings={filteredData}/>
+        </Container>
         </div>;
 };
 
