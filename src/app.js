@@ -13,17 +13,22 @@ const HOMEPAGE_QUERY = `query {settings {
     value
     displayName}}`;
 
-const UPDATE_USER_MUTATION = `mutation UpdateSetting(id: String!, name: String!) {
-  updateSetting(id: $id, name: $name) {
-    name
-  }
-}`;
 
 function Setting(props) {
     const {id, displayName,type,value} = props.setting;
     const isBoolean = (type == "boolean");
     const [editState, setEditState] = useState(false);
     const notBooleanAndeditState = isBoolean && !editState;
+
+    const UPDATE_SETTING_MUTATION = `mutation {
+        updateSetting(settingId: "00588cf5131ecc71672846c1a9497605", value: "$value")
+    }`;
+    const [updateSetting] = useMutation(UPDATE_SETTING_MUTATION);
+
+    const saveSetting = () => {
+        updateSetting({variables: {settingId: id, value: 'false'}});
+        setEditState(false);
+    };
 
     return <React.Fragment><Grid item lg={4} key={id}>
         {displayName}
@@ -33,7 +38,7 @@ function Setting(props) {
     {isBoolean &&
      <Switch
      checked={value == "true" || value == "1"}
-     // onChange={() => setEditState(!editState)}
+     onChange={() => updateSetting({variables: {settingId: id, value: 'false'}})}
      inputProps={{ 'aria-label': 'secondary checkbox' }} />}
     {!isBoolean &&
      editState &&
@@ -48,7 +53,7 @@ function Setting(props) {
     {!isBoolean && (!editState ?
         <Button color="primary" onClick={() => setEditState(true)}> <Edit/> edit</Button>
                 :
-        <Button color="primary" onClick={() => setEditState(false)}> <Save/> save</Button>)}
+        <Button color="primary" onClick={saveSetting}> <Save/> save</Button>)}
     </Grid></React.Fragment>;
 }
 
