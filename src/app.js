@@ -20,14 +20,18 @@ function Setting(props) {
     const [editState, setEditState] = useState(false);
     const notBooleanAndeditState = isBoolean && !editState;
 
-    return <li key={id}>{displayName}
-    {type}
+    return <React.Fragment><Grid item lg={4} key={id}>
+        {displayName}
+    </Grid>
+        <Grid item lg={3}>
     {!editState && !isBoolean && value}
     {isBoolean &&
-        <Switch
-            checked={value == "true"}
-            // onChange={() => setEditState(!editState)}
-            inputProps={{ 'aria-label': 'secondary checkbox' }} />}
+     <Switch
+     checked={value == "true"}
+     // onChange={() => setEditState(!editState)}
+     inputProps={{ 'aria-label': 'secondary checkbox' }} />}
+        </Grid>
+        <Grid item lg={5}>
     {!isBoolean &&
       editState &&
      type == "string" &&
@@ -40,20 +44,34 @@ function Setting(props) {
         <Button color="primary" onClick={() => setEditState(true)}> <Edit/> edit</Button>
                 :
         <Button color="primary" onClick={() => setEditState(false)}> <Save/> save</Button>)}
-        </li>;
+    </Grid></React.Fragment>;
 }
 
 function SettingsList(props) {
-    return <ul> {props.settings.map(setting => <Setting key={setting.id} setting={setting} />)}</ul>;
+    return <Grid container spacing={3}>
+        {props.settings.map(setting => <Setting key={setting.id} setting={setting} />)}
+        </Grid> ;
 }
 
 function Search() {
     return <TextField id="standard-basic" label="Search" />;
 }
-let data1 = [{ id: 1, displayName: "bla"},
-            { id: 2, displayName: "bla2"}];
+// let data1 = [{ id: 1, displayName: "bla"},
+//             { id: 2, displayName: "bla2"}];
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+}));
 
 export function App() {
+    const classes = useStyles();
     const [filterStr, setFilterStr] = useState('');
 
     const { loading, error, data } = useQuery(HOMEPAGE_QUERY);
@@ -65,7 +83,8 @@ export function App() {
     const settings = data.settings;
     const filteredData = settings.filter(v => v.displayName.startsWith(filterStr));
 
-    return <div>
+
+    return <div className={classes.root}>
         <Container maxWidth="lg">
         <TextField id="standard-basic" label="Search"
             onChange={(e) => setFilterStr(e.target.value)}
