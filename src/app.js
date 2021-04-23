@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import React, { useState } from "react";
-import { useQuery } from 'graphql-hooks';
+import { useQuery, useMutation } from 'graphql-hooks';
 import { Button,Container,Grid,Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
@@ -13,6 +13,11 @@ const HOMEPAGE_QUERY = `query {settings {
     value
     displayName}}`;
 
+const UPDATE_USER_MUTATION = `mutation UpdateSetting(id: String!, name: String!) {
+  updateSetting(id: $id, name: $name) {
+    name
+  }
+}`;
 
 function Setting(props) {
     const {id, displayName,type,value} = props.setting;
@@ -27,7 +32,7 @@ function Setting(props) {
     {!editState && !isBoolean && value}
     {isBoolean &&
      <Switch
-     checked={value == "true"}
+     checked={value == "true" || value == "1"}
      // onChange={() => setEditState(!editState)}
      inputProps={{ 'aria-label': 'secondary checkbox' }} />}
     {!isBoolean &&
