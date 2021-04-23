@@ -95,12 +95,6 @@ function SettingsList(props) {
         </Grid> ;
 }
 
-function Search() {
-    return <TextField id="standard-basic" label="Search" />;
-}
-// let data1 = [{ id: 1, displayName: "bla"},
-//             { id: 2, displayName: "bla2"}];
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -128,9 +122,15 @@ export function App() {
 
     return <div className={classes.root}>
         <Container maxWidth="lg">
+<Grid container spacing={3}>
+<Grid item lg={4}>
         <TextField id="standard-basic" label="Search"
+            size="medium"
+            fullWidth
             onChange={(e) => setFilterStr(e.target.value)}
         />
+</Grid>
+</Grid>
         <SettingsList settings={filteredData}/>
         </Container>
         </div>;
